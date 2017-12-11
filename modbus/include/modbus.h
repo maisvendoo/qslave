@@ -17,6 +17,9 @@
 #define MODBUS_H
 
 #include    <QObject>
+#include    <QSerialPort>
+
+#include    "serial-config.h"
 
 #if defined(MODBUS_LIB)
     #define MODBUS_EXPORT Q_DECL_EXPORT
@@ -40,9 +43,34 @@ public:
     explicit ModbusNetwork(QObject *parent = Q_NULLPTR);
     virtual ~ModbusNetwork();
 
+    /// Network initialization
+    void init(const serial_config_t &serial_config);
+
 protected:
 
+    /// Serial port configuration
+    serial_config_t sp_config;
 
+    /// Serial port object
+    QSerialPort     *serialPort;
+
+signals:
+
+    void sendDataToSlaves(QByteArray data);
+
+public slots:
+
+    void openConnection();
+
+    void closeConnection();
+
+private slots:
+
+    /// Receive data from serial port
+    void receive();
+
+    /// Serial port's errors processing
+    void errorSerialPort(QSerialPort::SerialPortError error);
 };
 
 #endif // MODBUS_H

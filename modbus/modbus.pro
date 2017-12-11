@@ -4,7 +4,7 @@ DEFINES += MODBUS_LIB
 
 TARGET = modbus
 
-QT += core serialbus serialport
+QT += core serialport
 
 DESTDIR = ../../lib
 
