@@ -34,7 +34,7 @@ struct request_t
     quint8      *data;
     quint16     crc;
 
-    abstract_request_t()
+    request_t()
     {
         id = 0;
         func = 0;

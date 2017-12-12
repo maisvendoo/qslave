@@ -18,8 +18,10 @@
 
 #include    <QObject>
 #include    <QSerialPort>
+#include    <QMap>
 
 #include    "serial-config.h"
+#include    "slave.h"
 
 #if defined(MODBUS_LIB)
     #define MODBUS_EXPORT Q_DECL_EXPORT
@@ -46,6 +48,12 @@ public:
     /// Network initialization
     void init(const serial_config_t &serial_config);
 
+    /// Check connection state
+    bool isConnected() const;
+
+    /// Add slave
+    void addSlave(Slave *slave);
+
 protected:
 
     /// Serial port configuration
@@ -53,6 +61,12 @@ protected:
 
     /// Serial port object
     QSerialPort     *serialPort;
+
+    /// Connection flag
+    bool            is_connected;
+
+    /// Slaves list
+    QMap<int, Slave *> slaves;
 
 signals:
 
@@ -64,7 +78,7 @@ public slots:
 
     void closeConnection();
 
-private slots:
+protected slots:
 
     /// Receive data from serial port
     void receive();

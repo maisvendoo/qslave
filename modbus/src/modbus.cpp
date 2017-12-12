@@ -21,6 +21,7 @@
 ModbusNetwork::ModbusNetwork(QObject *parent) : QObject(parent)
 {
     serialPort = nullptr;
+    is_connected = false;
 }
 
 //------------------------------------------------------------------------------
@@ -51,9 +52,49 @@ void ModbusNetwork::init(const serial_config_t &serial_config)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+bool ModbusNetwork::isConnected() const
+{
+    return is_connected;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void ModbusNetwork::addSlave(Slave *slave)
+{
+    connect(this, &ModbusNetwork::sendDataToSlaves, slave, &Slave::processData);
+
+    slaves.insert(slave->getID(), slave);
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
 void ModbusNetwork::openConnection()
 {
+    // Check connection state
+    if (is_connected)
+    {
+        if (serialPort->isOpen())
+        {
+            closeConnection();
+        }
+    }
+    else
+    {
+        // Set port parameters
+        serialPort->setPortName(sp_config.portName);
+        serialPort->setBaudRate(static_cast<QSerialPort::BaudRate>(sp_config.baudrate));
+        serialPort->setDataBits(static_cast<QSerialPort::DataBits>(sp_config.dataBits));
+        serialPort->setStopBits(static_cast<QSerialPort::StopBits>(sp_config.stopBits));
+        serialPort->setParity(static_cast<QSerialPort::Parity>(sp_config.getPariry()));
 
+        // Connection
+        if (serialPort->open(QIODevice::ReadWrite))
+        {
+            is_connected = true;
+        }
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -62,6 +103,7 @@ void ModbusNetwork::openConnection()
 void ModbusNetwork::closeConnection()
 {
     serialPort->close();
+    is_connected = false;
 }
 
 //------------------------------------------------------------------------------

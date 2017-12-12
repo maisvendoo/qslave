@@ -9,7 +9,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include    <QMainWindow>
+#include    <QTimer>
+
+#include    "modbus.h"
 
 //------------------------------------------------------------------------------
 //
@@ -33,7 +36,19 @@ public:
 
 private:
 
-    Ui::MainWindow *ui;
+    Ui::MainWindow  *ui;
+
+    ModbusNetwork   *modnet;
+
+    QTimer          *updateTimer;
+
+    int             ports_count;
+
+private slots:
+
+    void updatePortsList();
+
+    void onConnectionRelease();
 };
 
 #endif // MAINWINDOW_H

@@ -18,6 +18,8 @@
 
 #include    <QObject>
 
+#include    "request.h"
+
 #if defined(MODBUS_LIB)
     #define SLAVE_EXPORT Q_DECL_EXPORT
 #else
@@ -33,12 +35,22 @@ class SLAVE_EXPORT Slave : public QObject
 
 public:
 
+    explicit Slave(QObject *parent = Q_NULLPTR);
+    virtual ~Slave();
 
+    void setID(int id);
+
+    quint8 getID() const;
 
 protected:
 
+    /// Slave ID
+    quint8    id;
 
+public slots:
 
+    /// Process data
+    void processData(QByteArray data);
 };
 
 #endif // SLAVE_H
