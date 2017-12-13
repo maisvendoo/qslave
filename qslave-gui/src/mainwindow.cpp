@@ -39,6 +39,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Slave *slave = new Slave();
     slave->setID(1);
+    slave->setMemoryConfig(COIL, 12);
+    slave->setCoil(16, true);
+    slave->setCoil(27, true);
+    modnet->addSlave(slave);
+
+    slave = new Slave();
+    slave->setID(4);
+    slave->setMemoryConfig(COIL, 12);
+    slave->setCoil(17, true);
+    slave->setCoil(25, true);
     modnet->addSlave(slave);
 }
 

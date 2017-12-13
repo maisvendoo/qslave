@@ -15,6 +15,8 @@
 
 #include    "modbus.h"
 
+#include    <QThread>
+
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -22,6 +24,7 @@ ModbusNetwork::ModbusNetwork(QObject *parent) : QObject(parent)
 {
     serialPort = nullptr;
     is_connected = false;
+    t35 = 5000;
 }
 
 //------------------------------------------------------------------------------
@@ -63,6 +66,7 @@ bool ModbusNetwork::isConnected() const
 void ModbusNetwork::addSlave(Slave *slave)
 {
     connect(this, &ModbusNetwork::sendDataToSlaves, slave, &Slave::processData);
+    connect(slave, &Slave::sendData, this, &ModbusNetwork::sendData);
 
     slaves.insert(slave->getID(), slave);
 }
@@ -104,6 +108,20 @@ void ModbusNetwork::closeConnection()
 {
     serialPort->close();
     is_connected = false;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void ModbusNetwork::sendData(QByteArray data)
+{
+    if (serialPort->isOpen())
+    {
+        QThread::usleep(t35);
+
+        serialPort->write(data);
+        serialPort->flush();
+    }
 }
 
 //------------------------------------------------------------------------------

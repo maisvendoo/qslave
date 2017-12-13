@@ -65,6 +65,9 @@ protected:
     /// Connection flag
     bool            is_connected;
 
+    ///
+    unsigned long t35;
+
     /// Slaves list
     QMap<int, Slave *> slaves;
 
@@ -77,6 +80,8 @@ public slots:
     void openConnection();
 
     void closeConnection();
+
+    void sendData(QByteArray data);
 
 protected slots:
 
