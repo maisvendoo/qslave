@@ -65,7 +65,7 @@ void Slave::setMemoryConfig(DataType type, int count)
 
         break;
 
-    case INPUT_REGICTER:
+    case INPUT_REGISTER:
 
         input_registers.clear();
 
@@ -108,6 +108,62 @@ void Slave::setCoil(quint16 address, bool value)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+void Slave::setDiscreteInput(quint16 address, bool value)
+{
+    discrete_inputs[address].value = value;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void Slave::setInputRegister(quint16 address, quint16 value)
+{
+    input_registers[address].value = value;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void Slave::setHoldingRegisters(quint16 address, quint16 value)
+{
+    holding_registers[address].value = value;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+bool Slave::getCoil(quint16 address) const
+{
+    return coils[address].value;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+bool Slave::getDiscreteInput(quint16 address) const
+{
+    return discrete_inputs[address].value;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+quint16 Slave::getInputRegister(quint16 address) const
+{
+    return input_registers[address].value;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+quint16 Slave::getHoldingRegister(quint16 address) const
+{
+    return holding_registers[address].value;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
 void Slave::processFunc(quint8 func, QByteArray data)
 {
     switch (func)
@@ -115,6 +171,24 @@ void Slave::processFunc(quint8 func, QByteArray data)
     case MB_FUNC_READ_COILS:
 
         readCoils(data);
+
+        break;
+
+    case MB_FUNC_READ_DISCRETE_INPUTS:
+
+        readDiscreteInputs(data);
+
+        break;
+
+    case MB_FUNC_READ_INPUT_REGISTERS:
+
+        readInputRegisters(data);
+
+        break;
+
+    case MB_FUNC_READ_HOLDING_REGISTERS:
+
+        readHoldingRegisters(data);
 
         break;
 
@@ -127,7 +201,7 @@ void Slave::processFunc(quint8 func, QByteArray data)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-void Slave::readCoils(QByteArray data)
+void Slave::readDiscreteValues(QByteArray data, QMap<quint16, data_unit_t<bool> > &dv)
 {
     quint16 address = word(data.at(HI_ADDRESS), data.at(LO_ADDRESS));
     quint16 count = word(data.at(HI_COUNT), data.at(LO_COUNT));
@@ -149,12 +223,13 @@ void Slave::readCoils(QByteArray data)
 
     reply.append(static_cast<char>(size));
 
+    // Write coils state to PDU
     char *buff = new char[size];
     memset(buff, 0, size);
 
     for (quint16 i = 0; i < count; i++)
     {
-       if (coils[address + i].value)
+       if (dv[address + i].value)
        {
             buff[i / BYTE_SIZE] |= (1 << (i % BYTE_SIZE));
        }
@@ -164,12 +239,82 @@ void Slave::readCoils(QByteArray data)
 
     delete [] buff;
 
+    // CRC16 calculation
     quint16 crc = calcCRC16(reply.data(), reply.size());
 
     reply.append(static_cast<char>(hiByte(crc)));
     reply.append(static_cast<char>(loByte(crc)));
 
+    // Reply to master
     emit sendData(reply);
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void Slave::readRegisterValues(QByteArray data,
+                               QMap<quint16, data_unit_t<quint16> > &rv)
+{
+    quint16 address = word(data.at(HI_ADDRESS), data.at(LO_ADDRESS));
+    quint16 count = word(data.at(HI_COUNT), data.at(LO_COUNT));
+
+    QByteArray reply;
+    reply.clear();
+
+    reply.append(data.at(ID));
+    reply.append(data.at(FUNC));
+
+    quint16 size = count * 2;
+
+    reply.append(static_cast<char>(size));
+
+    for (int i = 0; i < count; i++)
+    {
+        quint16 value = rv[address + i].value;
+        reply.append(hiByte(value));
+        reply.append(loByte(value));
+    }
+
+    // CRC16 calculation
+    quint16 crc = calcCRC16(reply.data(), reply.size());
+
+    reply.append(static_cast<char>(hiByte(crc)));
+    reply.append(static_cast<char>(loByte(crc)));
+
+    // Reply to master
+    emit sendData(reply);
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void Slave::readCoils(QByteArray data)
+{
+    readDiscreteValues(data, coils);
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void Slave::readDiscreteInputs(QByteArray data)
+{
+    readDiscreteValues(data, discrete_inputs);
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void Slave::readInputRegisters(QByteArray data)
+{
+    readRegisterValues(data, input_registers);
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void Slave::readHoldingRegisters(QByteArray data)
+{
+    readRegisterValues(data, holding_registers);
 }
 
 //------------------------------------------------------------------------------

@@ -48,7 +48,17 @@ public:
     /// Set memory model configuration
     void setMemoryConfig(DataType type, int count);
 
+    /// Set device data
     void setCoil(quint16 address, bool value);
+    void setDiscreteInput(quint16 address, bool value);
+    void setInputRegister(quint16 address, quint16 value);
+    void setHoldingRegisters(quint16 address, quint16 value);
+
+    /// Get device data
+    bool getCoil(quint16 address) const;
+    bool getDiscreteInput(quint16 address) const;
+    quint16 getInputRegister(quint16 address) const;
+    quint16 getHoldingRegister(quint16 address) const;
 
 protected:
 
@@ -69,8 +79,20 @@ protected:
 
     /*!    Modbus functions     */
 
+    void readDiscreteValues(QByteArray data, QMap<quint16, data_unit_t<bool>> &dv);
+    void readRegisterValues(QByteArray data, QMap<quint16, data_unit_t<quint16>> &rv);
+
     /// Read coils
     void readCoils(QByteArray data);
+
+    /// Read discrete inputs
+    void readDiscreteInputs(QByteArray data);
+
+    /// Read input registers
+    void readInputRegisters(QByteArray data);
+
+    /// Read holding registers
+    void readHoldingRegisters(QByteArray data);
 
 signals:
 

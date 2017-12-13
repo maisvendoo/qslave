@@ -42,7 +42,7 @@ enum DataType
     COIL,
     DISCRETE_INPUT,
     HOLDING_REGISTER,
-    INPUT_REGICTER
+    INPUT_REGISTER
 };
 
 //------------------------------------------------------------------------------
