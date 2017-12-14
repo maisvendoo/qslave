@@ -24,7 +24,7 @@ ModbusNetwork::ModbusNetwork(QObject *parent) : QObject(parent)
 {
     serialPort = nullptr;
     is_connected = false;
-    t35 = 5000;
+    quiet_time = 5000;
 }
 
 //------------------------------------------------------------------------------
@@ -67,6 +67,7 @@ void ModbusNetwork::addSlave(Slave *slave)
 {
     connect(this, &ModbusNetwork::sendDataToSlaves, slave, &Slave::processData);
     connect(slave, &Slave::sendData, this, &ModbusNetwork::sendData);
+    connect(slave, &Slave::logPrint, this, &ModbusNetwork::logSlavePrint);
 
     slaves.insert(slave->getID(), slave);
 }
@@ -93,6 +94,11 @@ void ModbusNetwork::openConnection()
         serialPort->setStopBits(static_cast<QSerialPort::StopBits>(sp_config.stopBits));
         serialPort->setParity(static_cast<QSerialPort::Parity>(sp_config.getPariry()));
 
+        quiet_time = (unsigned long) (QUIET_TIME_MULTIPLE / sp_config.baudrate);
+
+        if (quiet_time < MIN_QUIET_TIME)
+            quiet_time = MIN_QUIET_TIME;
+
         // Connection
         if (serialPort->open(QIODevice::ReadWrite))
         {
@@ -117,7 +123,7 @@ void ModbusNetwork::sendData(QByteArray data)
 {
     if (serialPort->isOpen())
     {
-        QThread::usleep(t35);
+        QThread::usleep(quiet_time);
 
         serialPort->write(data);
         serialPort->flush();
@@ -140,4 +146,12 @@ void ModbusNetwork::receive()
 void ModbusNetwork::errorSerialPort(QSerialPort::SerialPortError error)
 {
     Q_UNUSED(error)
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void ModbusNetwork::logSlavePrint(QString msg)
+{
+    emit logPrint(msg);
 }

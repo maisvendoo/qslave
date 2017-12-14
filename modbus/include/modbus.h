@@ -29,6 +29,15 @@
     #define MODBUS_EXPORT Q_DECL_IMPORT
 #endif
 
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+enum
+{
+    QUIET_TIME_MULTIPLE = 28000000L, ///< 8 bits * 1000000 us * 3.5
+    MIN_QUIET_TIME = 1750
+};
+
 /*!
  * \class
  * \brief Modbus network emulation class
@@ -66,7 +75,7 @@ protected:
     bool            is_connected;
 
     ///
-    unsigned long t35;
+    unsigned long quiet_time;
 
     /// Slaves list
     QMap<int, Slave *> slaves;
@@ -74,6 +83,8 @@ protected:
 signals:
 
     void sendDataToSlaves(QByteArray data);
+
+    void logPrint(QString msg);
 
 public slots:
 
@@ -90,6 +101,9 @@ protected slots:
 
     /// Serial port's errors processing
     void errorSerialPort(QSerialPort::SerialPortError error);
+
+    /// Print log message form slave
+    void logSlavePrint(QString msg);
 };
 
 #endif // MODBUS_H

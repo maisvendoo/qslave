@@ -4,7 +4,11 @@
 #include    <QComboBox>
 #include    <QPushButton>
 #include    <QSerialPortInfo>
+#include    <QPlainTextEdit>
 
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
 enum
 {
     PORT_LIST_UPDATE_INTERVAL = 100
@@ -22,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // Modbus virtual network creation
     modnet = new ModbusNetwork(this);
 
+    connect(modnet, &ModbusNetwork::logPrint, this, &MainWindow::logPring);
+
     // Timer for update ports list creation
     updateTimer = new QTimer(this);
     updateTimer->setInterval(PORT_LIST_UPDATE_INTERVAL);
@@ -36,6 +42,10 @@ MainWindow::MainWindow(QWidget *parent) :
     // Connection button config
     connect(ui->pbConnect, &QPushButton::released,
             this, &MainWindow::onConnectionRelease);
+
+    // Clean log button config
+    connect(ui->pbCleanLog, &QPushButton::released,
+            this, &MainWindow::onCleanLogRelease);
 
     Slave *slave = new Slave();
     slave->setID(1);
@@ -98,6 +108,7 @@ void MainWindow::onConnectionRelease()
         modnet->closeConnection();
 
         ui->pbConnect->setText("Connect");
+        logPring("OK: Device is disconnected");
     }
     else
     {
@@ -113,5 +124,22 @@ void MainWindow::onConnectionRelease()
         modnet->openConnection();
 
         ui->pbConnect->setText("Disconnect");
+        logPring("OK: Device is connected");
     }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void MainWindow::onCleanLogRelease()
+{
+    ui->ptSystemLog->clear();
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void MainWindow::logPring(QString msg)
+{
+    ui->ptSystemLog->appendPlainText(msg);
 }

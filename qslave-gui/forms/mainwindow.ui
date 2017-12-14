@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>QSlave Modbus network emulator</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QGroupBox" name="gbConnection">
@@ -273,6 +273,42 @@
      </property>
     </widget>
    </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>510</y>
+      <width>1001</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>System log</string>
+    </property>
+    <widget class="QPushButton" name="pbCleanLog">
+     <property name="geometry">
+      <rect>
+       <x>910</x>
+       <y>30</y>
+       <width>81</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Clean</string>
+     </property>
+    </widget>
+    <widget class="QPlainTextEdit" name="ptSystemLog">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>981</width>
+       <height>61</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -280,7 +316,7 @@
      <x>0</x>
      <y>0</y>
      <width>1020</width>
-     <height>22</height>
+     <height>18</height>
     </rect>
    </property>
   </widget>

@@ -166,8 +166,46 @@ quint16 Slave::getHoldingRegister(quint16 address) const
 //------------------------------------------------------------------------------
 bool Slave::checkRequest(QByteArray data)
 {
+    if (!checkFuncCode(data.at(FUNC)))
+    {
+        logPrint("ERROR: Invalid function code " + QString::number(data.at(FUNC)));
+        return false;
+    }
+
+    quint8 crc_idx = data.size() - 2;
+    quint16 crc = word(data.at(crc_idx), data.at(crc_idx + 1));
+
+    if (crc != calcCRC16((quint8 *) data.data(), data.size() - 2))
+    {
+        logPrint("ERROR: Invalide CRC");
+        return false;
+    }
 
     return true;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+bool Slave::checkFuncCode(quint8 func)
+{
+    switch (func)
+    {
+    case MB_FUNC_READ_COILS:
+    case MB_FUNC_READ_DISCRETE_INPUTS:
+    case MB_FUNC_READ_HOLDING_REGISTERS:
+    case MB_FUNC_READ_INPUT_REGISTERS:
+    case MB_FUNC_WRITE_COIL:
+    case MB_FUNC_WRITE_HOLDING_REGISTER:
+    case MB_FUNC_WRITE_MULTIPLE_COILS:
+    case MB_FUNC_WRITE_MULTIPLE_REGISTERS:
+
+        return true;
+
+    default:
+
+        return false;
+    }
 }
 
 //------------------------------------------------------------------------------

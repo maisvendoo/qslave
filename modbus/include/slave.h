@@ -7,10 +7,10 @@
 //------------------------------------------------------------------------------
 /*!
  * \file
- * \brief
- * \copyright
- * \author
- * \date
+ * \brief Modbus slave device emulation
+ * \copyright maisvendoo
+ * \author Dmitry Pritykin
+ * \date 11/12/2017
  */
 
 #ifndef SLAVE_H
@@ -76,6 +76,9 @@ protected:
 
     /// Check request data
     bool checkRequest(QByteArray data);
+
+    /// Check function code
+    bool checkFuncCode(quint8 func);
 
     /// Process Modbus function
     void processFunc(quint8 func, QByteArray data);

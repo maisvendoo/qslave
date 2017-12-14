@@ -49,6 +49,10 @@ private slots:
     void updatePortsList();
 
     void onConnectionRelease();
+
+    void onCleanLogRelease();
+
+    void logPring(QString msg);
 };
 
 #endif // MAINWINDOW_H
