@@ -103,6 +103,42 @@ void setBit(quint8 &byte, quint8 bit)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+quint16 calcCRC16(quint8 *buff, quint8 size)
+{
+#if defined(CRC_TABLE_METHOD)
+    return calcCRC16table(buff, size);
+#else
+    return calcCRC16simple(buff, size);
+#endif
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+quint16 calcCRC16table(quint8 *buff, quint8 size)
+{
+    // high CRC byte initialized
+    quint8 crc_hi = 0xFF;
+    // low CRC byte initialized
+    quint8 crc_lo = 0xFF;
+    // will index into CRC lookup
+    unsigned int i;
+
+    // pass through message buffer
+    while (size--)
+    {
+        // calculate the CRC
+        i = crc_hi ^ *buff++;
+        crc_hi = crc_lo ^ table_crc_hi[i];
+        crc_lo = table_crc_lo[i];
+    }
+
+    return (crc_hi << 8 | crc_lo);
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
 quint16 calcCRC16simple(quint8 *buff, quint8 size)
 {
     quint32 tmp, tmp2, flag;
@@ -139,37 +175,4 @@ bool getBit(quint8 byte, quint8 bit)
     quint8 result = byte & mask;
 
     return static_cast<bool>(result);
-}
-
-//------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------
-quint16 calcCRC16(quint8 *buff, quint8 size)
-{
-#if defined(CRC_TABLE_METHOD)
-    return calcCRC16table(buff, size);
-#else
-    return calcCRC16simple(buff, size);
-#endif
-}
-
-//------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------
-quint16 calcCRC16table(quint8 *buff, quint8 size)
-{
-    quint8 crc_hi = 0xFF;   /* high CRC byte initialized */
-    quint8 crc_lo = 0xFF;   /* low CRC byte initialized */
-    unsigned int i;         /* will index into CRC lookup */
-
-    // pass through message buffer
-    while (size--)
-    {
-        // calculate the CRC
-        i = crc_hi ^ *buff++;
-        crc_hi = crc_lo ^ table_crc_hi[i];
-        crc_lo = table_crc_lo[i];
-    }
-
-    return (crc_hi << 8 | crc_lo);
 }

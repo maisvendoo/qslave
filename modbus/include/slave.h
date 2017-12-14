@@ -100,8 +100,14 @@ protected:
     /// Read holding registers
     void readHoldingRegisters(QByteArray data);
 
+    /// Write single coil
+    void writeSingleCoil(QByteArray data);
+
     /// Write multiplle coils
     void writeMultipleCoils(QByteArray data);
+
+    /// Write single register
+    void writeSingleRegister(QByteArray data);
 
     /// Write multiple registers
     void writeMultipleRegisters(QByteArray data);

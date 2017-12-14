@@ -201,9 +201,21 @@ void Slave::processFunc(quint8 func, QByteArray data)
 
         break;
 
+    case MB_FUNC_WRITE_COIL:
+
+        writeSingleCoil(data);
+
+        break;
+
     case MB_FUNC_WRITE_MULTIPLE_COILS:
 
         writeMultipleCoils(data);
+
+        break;
+
+    case MB_FUNC_WRITE_HOLDING_REGISTER:
+
+        writeSingleRegister(data);
 
         break;
 
@@ -403,9 +415,44 @@ void Slave::readHoldingRegisters(QByteArray data)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+void Slave::writeSingleCoil(QByteArray data)
+{
+    quint16 address = word(data.at(HI_ADDRESS), data.at(LO_ADDRESS));
+
+    coils[address].value = static_cast<bool>(data.at(LO_ADDRESS + 1));
+
+    QByteArray reply;
+    reply.clear();
+
+    reply.append(data);
+
+    emit sendData(reply);
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
 void Slave::writeMultipleCoils(QByteArray data)
 {
     writeDiscreteValues(data, coils);
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void Slave::writeSingleRegister(QByteArray data)
+{
+    quint16 address = word(data.at(HI_ADDRESS), data.at(LO_ADDRESS));
+
+    holding_registers[address].value = word(data.at(LO_ADDRESS + 1),
+                                            data.at(LO_ADDRESS + 2));
+
+    QByteArray reply;
+    reply.clear();
+
+    reply.append(data);
+
+    emit sendData(reply);
 }
 
 //------------------------------------------------------------------------------
