@@ -164,6 +164,15 @@ quint16 Slave::getHoldingRegister(quint16 address) const
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+bool Slave::checkRequest(QByteArray data)
+{
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
 void Slave::processFunc(quint8 func, QByteArray data)
 {
     switch (func)
@@ -189,6 +198,18 @@ void Slave::processFunc(quint8 func, QByteArray data)
     case MB_FUNC_READ_HOLDING_REGISTERS:
 
         readHoldingRegisters(data);
+
+        break;
+
+    case MB_FUNC_WRITE_MULTIPLE_COILS:
+
+        writeMultipleCoils(data);
+
+        break;
+
+    case MB_FUNC_WRITE_MULTIPLE_REGISTERS:
+
+        writeMultipleRegisters(data);
 
         break;
 
@@ -288,6 +309,68 @@ void Slave::readRegisterValues(QByteArray data,
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+void Slave::writeDiscreteValues(QByteArray data,
+                                QMap<quint16, data_unit_t<bool> > &dv)
+{
+    quint16 address = word(data.at(HI_ADDRESS), data.at(LO_ADDRESS));
+    quint16 count = word(data.at(HI_COUNT), data.at(LO_COUNT));
+
+    for (int i = 0; i < count; i++)
+    {
+        quint8 byte_idx = i / BYTE_SIZE;
+        quint8 bit_idx = i % BYTE_SIZE;
+
+        dv[address + i].value = getBit(data.at(7 + byte_idx), bit_idx);
+    }
+
+    QByteArray reply;
+    reply.clear();
+
+    reply.append(data.data(), LO_COUNT + 1);
+
+    quint16 crc = calcCRC16(reply.data(), reply.size());
+
+    reply.append(static_cast<char>(hiByte(crc)));
+    reply.append(static_cast<char>(loByte(crc)));
+
+    emit sendData(reply);
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void Slave::writeRegisterValues(QByteArray data,
+                                QMap<quint16, data_unit_t<quint16> > &rv)
+{
+    quint16 address = word(data.at(HI_ADDRESS), data.at(LO_ADDRESS));
+    quint16 count = word(data.at(HI_COUNT), data.at(LO_COUNT));
+
+    quint8 byte_idx = 0;
+
+    for (int i = 0; i < count; i++)
+    {
+        quint16 value = word(data.at(7 + byte_idx), data.at(8 + byte_idx));
+        rv[address + i].value = value;
+
+        byte_idx += 2;
+    }
+
+    QByteArray reply;
+    reply.clear();
+
+    reply.append(data.data(), LO_COUNT + 1);
+
+    quint16 crc = calcCRC16(reply.data(), reply.size());
+
+    reply.append(static_cast<char>(hiByte(crc)));
+    reply.append(static_cast<char>(loByte(crc)));
+
+    emit sendData(reply);
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
 void Slave::readCoils(QByteArray data)
 {
     readDiscreteValues(data, coils);
@@ -320,15 +403,32 @@ void Slave::readHoldingRegisters(QByteArray data)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+void Slave::writeMultipleCoils(QByteArray data)
+{
+    writeDiscreteValues(data, coils);
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void Slave::writeMultipleRegisters(QByteArray data)
+{
+    writeRegisterValues(data, holding_registers);
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
 void Slave::processData(QByteArray data)
 {
-    request_t   request;
+    quint8 id = static_cast<quint8>(data.at(0));
 
-    request.id = static_cast<quint8>(data.at(0));
-
-    if (id == request.id)
+    if (id == this->id)
     {
-        request.func = static_cast<quint8>(data.at(1));
-        processFunc(request.func, data);
+        if (checkRequest(data))
+        {
+            quint8 func = static_cast<quint8>(data.at(1));
+            processFunc(func, data);
+        }
     }
 }

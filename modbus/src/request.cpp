@@ -64,3 +64,14 @@ quint16 calcCRC16(char *buff, quint8 size)
 
     return tmp;
 }
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+bool getBit(quint8 byte, quint8 bit)
+{
+    quint8 mask = (1 << bit);
+    quint8 result = byte & mask;
+
+    return static_cast<bool>(result);
+}

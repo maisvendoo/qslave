@@ -74,6 +74,9 @@ protected:
     /// Input registeres
     QMap<quint16, data_unit_t<quint16>>     input_registers;
 
+    /// Check request data
+    bool checkRequest(QByteArray data);
+
     /// Process Modbus function
     void processFunc(quint8 func, QByteArray data);
 
@@ -81,6 +84,9 @@ protected:
 
     void readDiscreteValues(QByteArray data, QMap<quint16, data_unit_t<bool>> &dv);
     void readRegisterValues(QByteArray data, QMap<quint16, data_unit_t<quint16>> &rv);
+
+    void writeDiscreteValues(QByteArray data, QMap<quint16, data_unit_t<bool>> &dv);
+    void writeRegisterValues(QByteArray data, QMap<quint16, data_unit_t<quint16>> &rv);
 
     /// Read coils
     void readCoils(QByteArray data);
@@ -94,9 +100,17 @@ protected:
     /// Read holding registers
     void readHoldingRegisters(QByteArray data);
 
+    /// Write multiplle coils
+    void writeMultipleCoils(QByteArray data);
+
+    /// Write multiple registers
+    void writeMultipleRegisters(QByteArray data);
+
 signals:
 
     void sendData(QByteArray data);
+
+    void logPrint(QString msg);
 
 public slots:
 
