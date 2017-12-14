@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     slave->setMemoryConfig(DISCRETE_INPUT, 12);
     slave->setDiscreteInput(8, true);
 
-    slave->setInputRegister(INPUT_REGISTER, 12);
+    slave->setMemoryConfig(INPUT_REGISTER, 12);
     slave->setInputRegister(5, 1024);
 
     slave->setMemoryConfig(HOLDING_REGISTER, 12);
