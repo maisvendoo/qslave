@@ -261,7 +261,7 @@ void Slave::readDiscreteValues(QByteArray data, QMap<quint16, data_unit_t<bool> 
     delete [] buff;
 
     // CRC16 calculation
-    quint16 crc = calcCRC16(reply.data(), reply.size());
+    quint16 crc = calcCRC16((quint8 *) reply.data(), reply.size());
 
     reply.append(static_cast<char>(hiByte(crc)));
     reply.append(static_cast<char>(loByte(crc)));
@@ -297,7 +297,7 @@ void Slave::readRegisterValues(QByteArray data,
     }
 
     // CRC16 calculation
-    quint16 crc = calcCRC16(reply.data(), reply.size());
+    quint16 crc = calcCRC16((quint8 *) reply.data() , reply.size());
 
     reply.append(static_cast<char>(hiByte(crc)));
     reply.append(static_cast<char>(loByte(crc)));
@@ -328,7 +328,7 @@ void Slave::writeDiscreteValues(QByteArray data,
 
     reply.append(data.data(), LO_COUNT + 1);
 
-    quint16 crc = calcCRC16(reply.data(), reply.size());
+    quint16 crc = calcCRC16((quint8 *) reply.data(), reply.size());
 
     reply.append(static_cast<char>(hiByte(crc)));
     reply.append(static_cast<char>(loByte(crc)));
@@ -345,11 +345,11 @@ void Slave::writeRegisterValues(QByteArray data,
     quint16 address = word(data.at(HI_ADDRESS), data.at(LO_ADDRESS));
     quint16 count = word(data.at(HI_COUNT), data.at(LO_COUNT));
 
-    quint8 byte_idx = 0;
+    quint8 byte_idx = 7;
 
     for (int i = 0; i < count; i++)
     {
-        quint16 value = word(data.at(7 + byte_idx), data.at(8 + byte_idx));
+        quint16 value = word(data.at(byte_idx), data.at(byte_idx + 1));
         rv[address + i].value = value;
 
         byte_idx += 2;
@@ -360,7 +360,7 @@ void Slave::writeRegisterValues(QByteArray data,
 
     reply.append(data.data(), LO_COUNT + 1);
 
-    quint16 crc = calcCRC16(reply.data(), reply.size());
+    quint16 crc = calcCRC16((quint8 *) reply.data(), reply.size());
 
     reply.append(static_cast<char>(hiByte(crc)));
     reply.append(static_cast<char>(loByte(crc)));
