@@ -45,8 +45,20 @@ public:
     /// Get slave id
     quint8 getID() const;
 
+    /// Set description
+    void setDescription(QString description);
+
+    /// Get description
+    QString getDescription() const;
+
     /// Set memory model configuration
     void setMemoryConfig(DataType type, int count);
+
+    /// Add discrete value
+    void addDiscreteValue(DataType type, data_unit_t<bool> dv);
+
+    /// Add register value
+    void addRegisterValue(DataType type, data_unit_t<quint16> rv);
 
     /// Set device data
     void setCoil(quint16 address, bool value);
@@ -63,7 +75,10 @@ public:
 protected:
 
     /// Slave ID
-    quint8    id;
+    quint8      id;
+
+    /// Slave description
+    QString     description;
 
     /// Coils
     QMap<quint16, data_unit_t<bool>>        coils;

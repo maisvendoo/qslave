@@ -5,6 +5,7 @@
 #-------------------------------------------------
 QT  += core gui
 QT  += serialport
+QT  += xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,8 +27,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 INCLUDEPATH += ./include
 INCLUDEPATH += ../modbus/include
+INCLUDEPATH += ../CfgReader/include
 
 LIBS += -L../../lib -lmodbus
+LIBS += -L../../lib -lCfgReader
 
 SOURCES += $$files(./src/*.cpp)
 HEADERS += $$files(./include/*.h)

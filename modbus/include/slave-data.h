@@ -26,11 +26,13 @@ struct data_unit_t
 {
     quint16     address;
     T           value;
+    QString     description;
 
     data_unit_t()
     {
         address = 0;
         value = 0;
+        description = "";
     }
 };
 

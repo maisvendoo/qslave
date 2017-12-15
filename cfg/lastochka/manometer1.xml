@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Config>
+    <Coil>
+            <address>16</address>
+            <description>Сброс</description>
+            <value>0</value>
+    </Coil>
+    <DiscreteInput>
+            <address>0</address>
+            <description>Готов</description>
+            <value>1</value>
+    </DiscreteInput>
+    <HoldingRegister>
+            <address>5</address>
+            <description>Давление ТМ</description>
+            <value>0</value>
+    </HoldingRegister>
+    <HoldingRegister>
+            <address>6</address>
+            <description>Давление ПМ</description>
+            <value>0</value>
+    </HoldingRegister>
+    <InputRegister>
+            <address>2</address>
+            <description>Шагов ШД1</description>
+            <value>76</value>
+    </InputRegister>
+    <InputRegister>
+            <address>3</address>
+            <description>Шагов ШД2</description>
+            <value>50</value>
+    </InputRegister>
+<Config>

@@ -6,6 +6,8 @@
 #include    <QSerialPortInfo>
 #include    <QPlainTextEdit>
 
+#include    "CfgReader.h"
+
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -47,30 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pbCleanLog, &QPushButton::released,
             this, &MainWindow::onCleanLogRelease);
 
-    Slave *slave = new Slave();
-    slave->setID(1);
-
-    slave->setMemoryConfig(COIL, 12);
-    slave->setCoil(16, true);
-    slave->setCoil(27, true);
-
-    slave->setMemoryConfig(DISCRETE_INPUT, 12);
-    slave->setDiscreteInput(8, true);
-
-    slave->setMemoryConfig(INPUT_REGISTER, 12);
-    slave->setInputRegister(5, 1024);
-
-    slave->setMemoryConfig(HOLDING_REGISTER, 12);
-    slave->setHoldingRegisters(8, 2048);
-
-    modnet->addSlave(slave);
-
-    slave = new Slave();
-    slave->setID(4);
-    slave->setMemoryConfig(COIL, 12);
-    slave->setCoil(17, true);
-    slave->setCoil(25, true);
-    modnet->addSlave(slave);
+    loadNetworkConfig("../cfg/lastochka/lastochka.xml");
 }
 
 //------------------------------------------------------------------------------
@@ -79,6 +58,75 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void MainWindow::loadNetworkConfig(QString cfg_path)
+{
+    CfgReader cfg;
+
+    if (cfg.load(cfg_path))
+    {
+        QString sectionName = "Slave";
+
+        QDomNode slaveNode = cfg.getFirstSection(sectionName);
+
+        quint8 default_id = 1;
+
+        while (!slaveNode.isNull())
+        {
+            Slave *slave = new Slave();
+
+            // Read slave ID
+            int tmp = 0;
+            if (cfg.getInt(slaveNode, "id", tmp))
+                slave->setID(static_cast<quint8>(tmp));
+            else
+                slave->setID(default_id);
+
+            // Read description
+            QString description = "";
+
+            if (cfg.getString(slaveNode, "Description", description))
+                slave->setDescription(description);
+            else
+                slave->setDescription("Slave #" + QString::number(slave->getID()));
+
+            // Read slave config file name
+            QString slaveCfgName = "";
+            if (cfg.getString(slaveNode, "config", slaveCfgName))
+            {
+                slaveCfgName += ".xml";
+            }
+
+            modnet->addSlave(slave);
+
+            slaveNode = cfg.getNextSection();
+            default_id++;
+        }
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void MainWindow::loadDiscreteValues(QString cfg_path,
+                                    DataType type,
+                                    Slave *slave)
+{
+
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void MainWindow::loadRegisterValues(QString cfg_path,
+                                    DataType type,
+                                    Slave *slave)
+{
+
 }
 
 //------------------------------------------------------------------------------

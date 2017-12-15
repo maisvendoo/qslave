@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Config>
+	<Slave>
+		<Description>Манометр ТМ/ПМ</Description>
+		<id>1</id>
+                <config>manometer1</config>
+	</Slave>
+</Config>

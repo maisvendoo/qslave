@@ -5,7 +5,8 @@
 //------------------------------------------------------------------------------
 Slave::Slave(QObject *parent) : QObject(parent)
 {
-
+    id = 0;
+    description = "";
 }
 
 //------------------------------------------------------------------------------
@@ -30,6 +31,22 @@ void Slave::setID(int id)
 quint8 Slave::getID() const
 {
     return id;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void Slave::setDescription(QString description)
+{
+    this->description = description;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+QString Slave::getDescription() const
+{
+    return description;
 }
 
 //------------------------------------------------------------------------------
@@ -88,6 +105,56 @@ void Slave::setMemoryConfig(DataType type, int count)
             holding_register.address = static_cast<quint16>(HL_INIT_ADDRESS + i);
             holding_registers.insert(holding_register.address, holding_register);
         }
+
+        break;
+
+    default:
+
+        break;
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void Slave::addDiscreteValue(DataType type, data_unit_t<bool> dv)
+{
+    switch (type)
+    {
+    case COIL:
+
+        coils.insert(dv.address, dv);
+
+        break;
+
+    case DISCRETE_INPUT:
+
+        discrete_inputs.insert(dv.address, dv);
+
+        break;
+
+    default:
+
+        break;
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void Slave::addRegisterValue(DataType type, data_unit_t<quint16> rv)
+{
+    switch (type)
+    {
+    case HOLDING_REGISTER:
+
+        holding_registers.insert(rv.address, rv);
+
+        break;
+
+    case INPUT_REGISTER:
+
+        input_registers.insert(rv.address, rv);
 
         break;
 

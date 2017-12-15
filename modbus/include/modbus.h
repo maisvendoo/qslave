@@ -63,6 +63,9 @@ public:
     /// Add slave
     void addSlave(Slave *slave);
 
+    /// Set slaves list
+    void setSlaves(QMap<int, Slave *> slaves);
+
 protected:
 
     /// Serial port configuration

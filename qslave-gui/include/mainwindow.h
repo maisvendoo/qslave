@@ -44,6 +44,12 @@ private:
 
     int             ports_count;
 
+    void loadNetworkConfig(QString cfg_path);
+
+    void loadDiscreteValues(QString cfg_path, DataType type, Slave *slave);
+
+    void loadRegisterValues(QString cfg_path, DataType type, Slave *slave);
+
 private slots:
 
     void updatePortsList();
