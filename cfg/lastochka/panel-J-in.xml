@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Config>
+	<DiscreteInput>
+		<address>0</address>
+		<description>Готов</description>
+		<value>1</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>1</address>
+		<description>Не задействован</description>
+		<value>0</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>2</address>
+		<description>Отпуск СПТ</description>
+		<value>0</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>3</address>
+		<description>Включение СПТ</description>
+		<value>0</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>4</address>
+		<description>Рвзблокировка наружных дверей справа</description>
+		<value>0</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>5</address>
+		<description>Закрытие дверей</description>
+		<value>0</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>6</address>
+		<description>Разблокировка наружных дверей слева</description>
+		<value>0</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>7</address>
+		<description>Высокая платформа</description>
+		<value>0</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>8</address>
+		<description>Низкая платформа</description>
+		<value>0</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>9</address>
+		<description>Обогрев ниши машиниста</description>
+		<value>0</value>
+	</DiscreteInput>
+	<DiscreteInput>
+		<address>10</address>
+		<description>Обогрев ниши помошника</description>
+		<value>0</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>11</address>
+		<description>Аварийное отключение климатической установки</description>
+		<value>0</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>12</address>
+		<description>Аварийная остановка поезда</description>
+		<value>0</value>
+	</DiscreteInput>
+	
+	<Coil>
+		<address>16</address>
+		<description>Конфигурировать</description>
+		<value>0</value>
+	</Coil>	
+	
+	<InputRegister>
+		<address>2</address>
+		<description>Маска входов</description>
+		<value>0</value>
+	</InputRegister>
+
+	<HoldingRegister>
+		<address>5</address>
+		<description>Заданная маска входов</description>
+		<value>0</value>
+	</HoldingRegister>
+</Config>

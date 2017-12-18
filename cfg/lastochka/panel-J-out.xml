@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Config>
+	<Coil>
+		<address>16</address>
+		<description>Конфигурировать</description>
+		<value>0</value>
+	</Coil>	
+        <Coil>
+		<address>17</address>
+		<description>СПТ отпущен</description>
+		<value>0</value>
+	</Coil>	
+        <Coil>
+		<address>18</address>
+		<description>СПТ включен</description>
+		<value>0</value>
+	</Coil>	
+        <Coil>
+		<address>19</address>
+		<description>Разблокированы двери справа</description>
+		<value>0</value>
+	</Coil>
+        <Coil>
+		<address>20</address>
+		<description>Двери открыты</description>
+		<value>0</value>
+	</Coil>
+        <Coil>
+		<address>21</address>
+		<description>Разблокированы двери слева</description>
+		<value>0</value>
+	</Coil>
+        
+        
+	
+	<InputRegister>
+		<address>2</address>
+		<description>Маска входов</description>
+		<value>0</value>
+	</InputRegister>
+
+	<HoldingRegister>
+		<address>5</address>
+		<description>Заданная маска входов</description>
+		<value>0</value>
+	</HoldingRegister>
+</Config>

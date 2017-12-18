@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Config>
+	<DiscreteInput>
+		<address>0</address>
+		<description>Готов</description>
+		<value>1</value>
+	</DiscreteInput>
+		
+        <Coil>
+		<address>16</address>
+		<description>Белый</description>
+		<value>0</value>
+	</Coil>	
+        <Coil>
+		<address>17</address>
+		<description>Красный</description>
+		<value>0</value>                
+	</Coil>	
+        <Coil>
+		<address>18</address>
+		<description>Красно-желтый</description>
+		<value>0</value>
+	</Coil>	
+        <Coil>
+		<address>19</address>
+		<description>Желтый</description>
+		<value>0</value>
+	</Coil>	
+        <Coil>
+		<address>20</address>
+		<description>Зеленый 1</description>
+		<value>0</value>
+	</Coil>	
+        <Coil>
+		<address>21</address>
+		<description>Зеленый 2</description>
+		<value>0</value>
+	</Coil>	
+        <Coil>
+		<address>22</address>
+		<description>Зеленый 3</description>
+		<value>0</value>
+	</Coil>	
+        <Coil>
+		<address>23</address>
+		<description>Зеленый 4</description>
+		<value>0</value>
+	</Coil>	
+</Config>

@@ -454,6 +454,11 @@ void MainWindow::activeSlaveChanged(QListWidgetItem *cur, QListWidgetItem *prev)
 //------------------------------------------------------------------------------
 void MainWindow::updateCoils(quint8 id)
 {
+    int idx = ui->lwSlavesList->currentRow();
+
+    if (id != getSlaveByIndex(idx)->getID())
+        return;
+
     Slave *slave = modnet->getSlaves()[id];
 
     ui->twCoils->setRowCount(0);
@@ -483,6 +488,11 @@ void MainWindow::updateCoils(quint8 id)
 //------------------------------------------------------------------------------
 void MainWindow::updateHoldingRegisters(quint8 id)
 {
+    int idx = ui->lwSlavesList->currentRow();
+
+    if (id != getSlaveByIndex(idx)->getID())
+        return;
+
     Slave *slave = modnet->getSlaves()[id];
 
     ui->twHoldingRedisters->setRowCount(0);

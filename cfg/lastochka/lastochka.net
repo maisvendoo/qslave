@@ -3,22 +3,12 @@
 	<Slave>
 		<Description>Манометр ТМ/ПМ</Description>
 		<id>1</id>
-        <config>manometer</config>
+                <config>manometer</config>
 	</Slave>
 	<Slave>
 		<Description>Манометр ТЦ1/ТЦ2</Description>
 		<id>2</id>
 		<config>manometer</config>
-	</Slave>
-	<Slave>
-		<Description>Панель K</Description>
-		<id>6</id>
-		<config>panel-K</config>
-	</Slave>
-        <Slave>
-		<Description>Панель G</Description>
-		<id>11</id>
-		<config>panel-G</config>
 	</Slave>
          <Slave>
 		<Description>Контроллер тяги/торможения</Description>
@@ -29,5 +19,45 @@
 		<Description>Пневматический кран</Description>
 		<id>4</id>
 		<config>brake-controller</config>
+	</Slave>
+        <Slave>
+		<Description>Локомотивный светофор БЛОК</Description>
+		<id>5</id>
+		<config>traffic-light</config>
+	</Slave>
+	<Slave>
+		<Description>Панель K</Description>
+		<id>6</id>
+		<config>panel-K</config>
+	</Slave>                
+        <Slave>
+		<Description>Панель J (входы)</Description>
+		<id>7</id>
+		<config>panel-J-in</config>
+	</Slave>
+        <Slave>
+		<Description>Панель J (выходы)</Description>
+		<id>8</id>
+		<config>panel-J-out</config>
+	</Slave>
+        <Slave>
+		<Description>Панель M</Description>
+		<id>9</id>
+		<config>panel-M</config>
+	</Slave>
+        <Slave>
+		<Description>Панель L</Description>
+		<id>10</id>
+		<config>panel-L</config>
+	</Slave>
+        <Slave>
+		<Description>Панель G</Description>
+		<id>11</id>
+		<config>panel-G</config>
+	</Slave>
+        <Slave>
+		<Description>Панель I</Description>
+		<id>12</id>
+		<config>panel-I</config>
 	</Slave>
 </Config>
