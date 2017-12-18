@@ -75,9 +75,9 @@ void ModbusNetwork::addSlave(Slave *slave)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-void ModbusNetwork::setSlaves(QMap<int, Slave *> slaves)
+QMap<int, Slave *> ModbusNetwork::getSlaves() const
 {
-    this->slaves = slaves;
+    return slaves;
 }
 
 //------------------------------------------------------------------------------

@@ -72,6 +72,14 @@ public:
     quint16 getInputRegister(quint16 address) const;
     quint16 getHoldingRegister(quint16 address) const;
 
+    int getCoilsCount() const;
+    int getHoldingRegistersCount() const;
+    int getDiscreteInputsCount() const;
+    int getInputRegistersCount() const;
+
+    QString getCoilDescription(quint16 address) const;
+    QString getHoldingRegisterDescription(quint16 address) const;
+
 protected:
 
     /// Slave ID

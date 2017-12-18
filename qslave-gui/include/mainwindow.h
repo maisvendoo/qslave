@@ -11,6 +11,8 @@
 
 #include    <QMainWindow>
 #include    <QTimer>
+#include    <QListWidget>
+#include    <QTableWidget>
 
 #include    "modbus.h"
 
@@ -50,6 +52,10 @@ private:
 
     void loadRegisterValues(QString cfg_path, DataType type, Slave *slave);
 
+    void memoryTableInit(QTableWidget *tw);
+
+    Slave *getSlaveByIndex(int idx);
+
 private slots:
 
     void updatePortsList();
@@ -59,6 +65,12 @@ private slots:
     void onCleanLogRelease();
 
     void logPring(QString msg);
+
+    void updateSlavesList();
+
+    void activeSlaveChanged(QListWidgetItem *cur, QListWidgetItem *prev);
+
+    void updateSlaveOutputValues(quint8 id);
 };
 
 #endif // MAINWINDOW_H

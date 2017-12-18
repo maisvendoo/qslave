@@ -276,9 +276,9 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>510</y>
-      <width>1001</width>
+      <x>240</x>
+      <y>520</y>
+      <width>771</width>
       <height>131</height>
      </rect>
     </property>
@@ -288,7 +288,7 @@
     <widget class="QPushButton" name="pbCleanLog">
      <property name="geometry">
       <rect>
-       <x>910</x>
+       <x>670</x>
        <y>30</y>
        <width>81</width>
        <height>25</height>
@@ -303,9 +303,124 @@
       <rect>
        <x>10</x>
        <y>60</y>
-       <width>981</width>
+       <width>751</width>
        <height>61</height>
       </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QListWidget" name="lwSlavesList">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>221</width>
+      <height>551</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>100</y>
+      <width>771</width>
+      <height>421</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Device memory map</string>
+    </property>
+    <widget class="QTableWidget" name="twDiscreteInputs">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>371</width>
+       <height>171</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="twCoils">
+     <property name="geometry">
+      <rect>
+       <x>390</x>
+       <y>40</y>
+       <width>371</width>
+       <height>171</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="twInputRegisters">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>241</y>
+       <width>371</width>
+       <height>171</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="twHoldingRedisters">
+     <property name="geometry">
+      <rect>
+       <x>390</x>
+       <y>240</y>
+       <width>371</width>
+       <height>171</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>81</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Discrete Inputs</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>20</y>
+       <width>81</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Coils</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>220</y>
+       <width>81</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Input Registers</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>220</y>
+       <width>101</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Holding Registers</string>
      </property>
     </widget>
    </widget>
@@ -328,7 +443,6 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

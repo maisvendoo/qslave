@@ -64,7 +64,7 @@ public:
     void addSlave(Slave *slave);
 
     /// Set slaves list
-    void setSlaves(QMap<int, Slave *> slaves);
+    QMap<int, Slave *> getSlaves() const;
 
 protected:
 
