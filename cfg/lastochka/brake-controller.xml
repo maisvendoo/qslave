@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Config>
+	<DiscreteInput>
+		<address>0</address>
+		<description>Готов</description>
+		<value>1</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>1</address>
+		<description>Нулевая позиция</description>
+		<value>1</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>2</address>
+		<description>Экстренное торможение</description>
+		<value>0</value>
+	</DiscreteInput>
+	
+	
+	
+	<InputRegister>
+		<address>2</address>
+		<description>Импульсов энкодера</description>
+		<value>0</value>
+	</InputRegister>
+
+	<InputRegister>
+		<address>3</address>
+		<description>Позиция</description>
+		<value>0</value>
+	</InputRegister>
+</Config>

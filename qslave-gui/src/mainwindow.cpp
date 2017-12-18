@@ -334,13 +334,16 @@ void MainWindow::memoryTableInit(QTableWidget *tw)
 //------------------------------------------------------------------------------
 Slave *MainWindow::getSlaveByIndex(int idx)
 {
-    QMap<int, Slave *>::iterator it = modnet->getSlaves().begin();
+    QMap<int, Slave *>::iterator it;
+    QMap<int, Slave *> slaves = modnet->getSlaves();
     int i = 0;
 
-    for (i = 0; it != modnet->getSlaves().end(); ++it, ++i)
+    for (it = slaves.begin(); it != slaves.end(); it++)
     {
         if (i == idx)
             return it.value();
+
+        i++;
     }
 
     return nullptr;

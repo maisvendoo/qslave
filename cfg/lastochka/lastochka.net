@@ -10,4 +10,24 @@
 		<id>2</id>
 		<config>manometer</config>
 	</Slave>
+	<Slave>
+		<Description>Панель K</Description>
+		<id>6</id>
+		<config>panel-K</config>
+	</Slave>
+        <Slave>
+		<Description>Панель G</Description>
+		<id>11</id>
+		<config>panel-G</config>
+	</Slave>
+         <Slave>
+		<Description>Контроллер тяги/торможения</Description>
+		<id>3</id>
+		<config>traction-controller</config>
+	</Slave>
+        <Slave>
+		<Description>Пневматический кран</Description>
+		<id>4</id>
+		<config>brake-controller</config>
+	</Slave>
 </Config>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Config>
+	<DiscreteInput>
+		<address>0</address>
+		<description>Готов</description>
+		<value>1</value>
+	</DiscreteInput>
+	<DiscreteInput>
+		<address>1</address>
+		<description>Снять блокировку движения</description>
+		<value>0</value>
+	</DiscreteInput>
+	<DiscreteInput>
+		<address>2</address>
+		<description>Выключение ГВ/БВ</description>
+		<value>0</value>
+	</DiscreteInput>
+	<DiscreteInput>
+		<address>3</address>
+		<description>Включение ГВ/БВ</description>
+		<value>0</value>
+	</DiscreteInput>
+	<DiscreteInput>
+		<address>4</address>
+		<description>Опустить токоприемник</description>
+		<value>0</value>
+	</DiscreteInput>
+	<DiscreteInput>
+		<address>5</address>
+		<description>Поднять токоприемник</description>
+		<value>0</value>
+	</DiscreteInput>
+	<DiscreteInput>
+		<address>6</address>
+		<description>Реверсор назад</description>
+		<value>0</value>
+	</DiscreteInput>
+	<DiscreteInput>
+		<address>7</address>
+		<description>Реверсор вперед</description>
+		<value>0</value>
+	</DiscreteInput>
+	
+	<Coil>
+		<address>16</address>
+		<description>Конфигурировать</description>
+		<value>0</value>
+	</Coil>	
+	<Coil>
+		<address>17</address>
+		<description>Блокировка движения</description>
+		<value>0</value>
+	</Coil>
+	<InputRegister>
+		<address>2</address>
+		<description>Маска входов</description>
+		<value>0</value>
+	</InputRegister>
+
+	<HoldingRegister>
+		<address>5</address>
+		<description>Заданная маска входов</description>
+		<value>0</value>
+	</HoldingRegister>
+</Config>

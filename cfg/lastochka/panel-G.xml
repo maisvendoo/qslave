@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Config>
+	<DiscreteInput>
+		<address>0</address>
+		<description>Готов</description>
+		<value>1</value>
+	</DiscreteInput>
+	<DiscreteInput>
+		<address>1</address>
+		<description>Расцепка</description>
+		<value>0</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>2</address>
+		<description>Буфферные фонари 1</description>
+		<value>0</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>3</address>
+		<description>Буфферные фонари 3</description>
+		<value>0</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>4</address>
+		<description>Нейтральная вставка</description>
+		<value>0</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>5</address>
+		<description>Аккумуляторная батарея выкл.</description>
+		<value>0</value>
+	</DiscreteInput>
+        <DiscreteInput>
+		<address>6</address>
+		<description>Выбор кабины</description>
+		<value>1</value>
+	</DiscreteInput>
+	
+	<Coil>
+		<address>16</address>
+		<description>Конфигурировать</description>
+		<value>0</value>
+	</Coil>	
+	<Coil>
+		<address>17</address>
+		<description>Нейтральная вставка</description>
+		<value>0</value>
+	</Coil>
+	<InputRegister>
+		<address>2</address>
+		<description>Маска входов</description>
+		<value>0</value>
+	</InputRegister>
+
+	<HoldingRegister>
+		<address>5</address>
+		<description>Заданная маска входов</description>
+		<value>0</value>
+	</HoldingRegister>
+</Config>
