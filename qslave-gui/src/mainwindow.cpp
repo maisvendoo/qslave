@@ -78,8 +78,22 @@ MainWindow::MainWindow(QWidget *parent) :
     memoryTableInit(ui->twInputRegisters);
     memoryTableInit(ui->twHoldingRedisters);
 
+    connect(ui->twDiscreteInputs, &QTableWidget::cellChanged,
+            this, &MainWindow::onDiscreteInputChanged);
+
+    connect(ui->twCoils, &QTableWidget::cellChanged,
+            this, &MainWindow::onCoilChanged);
+
+    connect(ui->twInputRegisters, &QTableWidget::cellChanged,
+            this, &MainWindow::onInputRegisterChanged);
+
+    connect(ui->twHoldingRedisters, &QTableWidget::cellChanged,
+            this, &MainWindow::onHoldingRegisterChanged);
+
     connect(ui->lwSlavesList, &QListWidget::currentItemChanged,
             this, &MainWindow::activeSlaveChanged);
+
+    ui->lwSlavesList->setCurrentRow(0);
 }
 
 //------------------------------------------------------------------------------
@@ -143,6 +157,12 @@ void MainWindow::loadNetworkConfig(QString cfg_path)
                 loadRegisterValues(slave_cfg_path, HOLDING_REGISTER, slave);
                 loadRegisterValues(slave_cfg_path, INPUT_REGISTER, slave);
             }
+
+            connect(slave, &Slave::updateCoils,
+                    this, &MainWindow::updateCoils);
+
+            connect(slave, &Slave::updateHoldingRegisters,
+                    this, &MainWindow::updateHoldingRegisters);
 
             modnet->addSlave(slave);
 
@@ -301,7 +321,7 @@ void MainWindow::memoryTableInit(QTableWidget *tw)
     tw->setColumnWidth(VALUE_COL, VALUE_WIDTH);
 
     tw->setHorizontalHeaderLabels(QStringList() <<
-                                  tr("Addr") <<
+                                  tr("Address") <<
                                   tr("Description") <<
                                   tr("Value"));
 
@@ -420,18 +440,20 @@ void MainWindow::activeSlaveChanged(QListWidgetItem *cur, QListWidgetItem *prev)
     if (slave == nullptr)
         return;
 
-    updateSlaveOutputValues(slave->getID());
+    updateCoils(slave->getID());
+    updateHoldingRegisters(slave->getID());
+    updateDiscreteInputs(slave->getID());
+    updateInputRegisters(slave->getID());
 }
 
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-void MainWindow::updateSlaveOutputValues(quint8 id)
+void MainWindow::updateCoils(quint8 id)
 {
     Slave *slave = modnet->getSlaves()[id];
 
     ui->twCoils->setRowCount(0);
-    ui->twHoldingRedisters->setRowCount(0);
 
     for (int i = 0; i < slave->getCoilsCount(); i++)
     {
@@ -451,6 +473,16 @@ void MainWindow::updateSlaveOutputValues(quint8 id)
                              VALUE_COL,
                              new QTableWidgetItem(QString::number(value)));
     }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void MainWindow::updateHoldingRegisters(quint8 id)
+{
+    Slave *slave = modnet->getSlaves()[id];
+
+    ui->twHoldingRedisters->setRowCount(0);
 
     for (int i = 0; i < slave->getHoldingRegistersCount(); i++)
     {
@@ -469,5 +501,147 @@ void MainWindow::updateSlaveOutputValues(quint8 id)
         ui->twHoldingRedisters->setItem(i,
                              VALUE_COL,
                              new QTableWidgetItem(QString::number(value)));
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void MainWindow::updateDiscreteInputs(quint8 id)
+{
+    Slave *slave = modnet->getSlaves()[id];
+
+    ui->twDiscreteInputs->setRowCount(0);
+
+    for (int i = 0; i < slave->getDiscreteInputsCount(); i++)
+    {
+        ui->twDiscreteInputs->insertRow(i);
+
+        ui->twDiscreteInputs->setItem(i,
+                             ADDRESS_COL,
+                             new QTableWidgetItem(QString::number(DI_INIT_ADDRESS + i)));
+
+        ui->twDiscreteInputs->setItem(i,
+                             DESC_COL,
+                             new QTableWidgetItem(slave->getDiscreteInputDescription(DI_INIT_ADDRESS + i)));
+
+        int value = static_cast<int>(slave->getDiscreteInput(DI_INIT_ADDRESS + i));
+
+        ui->twDiscreteInputs->setItem(i,
+                             VALUE_COL,
+                             new QTableWidgetItem(QString::number(value)));
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void MainWindow::updateInputRegisters(quint8 id)
+{
+    Slave *slave = modnet->getSlaves()[id];
+
+    ui->twInputRegisters->setRowCount(0);
+
+    for (int i = 0; i < slave->getInputRegistersCount(); i++)
+    {
+        ui->twInputRegisters->insertRow(i);
+
+        ui->twInputRegisters->setItem(i,
+                             ADDRESS_COL,
+                             new QTableWidgetItem(QString::number(IT_INIT_ADDRESS + i)));
+
+        ui->twInputRegisters->setItem(i,
+                             DESC_COL,
+                             new QTableWidgetItem(slave->getInputRegisterDescription(IT_INIT_ADDRESS + i)));
+
+        int value = static_cast<int>(slave->getInputRegister(IT_INIT_ADDRESS + i));
+
+        ui->twInputRegisters->setItem(i,
+                             VALUE_COL,
+                             new QTableWidgetItem(QString::number(value)));
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void MainWindow::onDiscreteInputChanged(int row, int column)
+{
+    if (column != VALUE_COL)
+        return;
+
+    quint16 address = DI_INIT_ADDRESS + row;
+    bool value = static_cast<bool>(ui->twDiscreteInputs->item(row, column)->text().toInt());
+
+    int idx = ui->lwSlavesList->currentRow();
+
+    Slave *slave = getSlaveByIndex(idx);
+
+    if (value != slave->getDiscreteInput(address))
+    {
+        slave->setDiscreteInput(address, value);
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void MainWindow::onCoilChanged(int row, int column)
+{
+    if (column != VALUE_COL)
+        return;
+
+    quint16 address = CL_INIT_ADDRESS + row;
+    bool value = static_cast<bool>(ui->twCoils->item(row, column)->text().toInt());
+
+    int idx = ui->lwSlavesList->currentRow();
+
+    Slave *slave = getSlaveByIndex(idx);
+
+    if (value != slave->getCoil(address))
+    {
+        slave->setCoil(address, value);
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void MainWindow::onInputRegisterChanged(int row, int column)
+{
+    if (column != VALUE_COL)
+        return;
+
+    quint16 address = IT_INIT_ADDRESS + row;
+    quint16 value = static_cast<quint16>(ui->twInputRegisters->item(row, column)->text().toInt());
+
+    int idx = ui->lwSlavesList->currentRow();
+
+    Slave *slave = getSlaveByIndex(idx);
+
+    if (value != slave->getInputRegister(address))
+    {
+        slave->setInputRegister(address, value);
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void MainWindow::onHoldingRegisterChanged(int row, int column)
+{
+    if (column != VALUE_COL)
+        return;
+
+    quint16 address = HL_INIT_ADDRESS + row;
+    quint16 value = static_cast<quint16>(ui->twHoldingRedisters->item(row, column)->text().toInt());
+
+    int idx = ui->lwSlavesList->currentRow();
+
+    Slave *slave = getSlaveByIndex(idx);
+
+    if (value != slave->getHoldingRegister(address))
+    {
+        slave->setHoldingRegisters(address, value);
     }
 }

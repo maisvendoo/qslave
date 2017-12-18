@@ -70,7 +70,15 @@ private slots:
 
     void activeSlaveChanged(QListWidgetItem *cur, QListWidgetItem *prev);
 
-    void updateSlaveOutputValues(quint8 id);
+    void updateCoils(quint8 id);
+    void updateHoldingRegisters(quint8 id);
+    void updateDiscreteInputs(quint8 id);
+    void updateInputRegisters(quint8 id);
+
+    void onDiscreteInputChanged(int row, int column);
+    void onCoilChanged(int row, int column);
+    void onInputRegisterChanged(int row, int column);
+    void onHoldingRegisterChanged(int row, int column);
 };
 
 #endif // MAINWINDOW_H

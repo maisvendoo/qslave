@@ -79,6 +79,8 @@ public:
 
     QString getCoilDescription(quint16 address) const;
     QString getHoldingRegisterDescription(quint16 address) const;
+    QString getDiscreteInputDescription(quint16 address) const;
+    QString getInputRegisterDescription(quint16 address) const;
 
 protected:
 
@@ -143,6 +145,9 @@ signals:
     void sendData(QByteArray data);
 
     void logPrint(QString msg);
+
+    void updateCoils(quint8 id);
+    void updateHoldingRegisters(quint8 id);
 
 public slots:
 

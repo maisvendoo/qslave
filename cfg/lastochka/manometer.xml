@@ -12,12 +12,12 @@
     </DiscreteInput>
     <HoldingRegister>
             <address>5</address>
-            <description>Давление ТМ</description>
+            <description>Красная стрелка</description>
             <value>0</value>
     </HoldingRegister>
     <HoldingRegister>
             <address>6</address>
-            <description>Давление ПМ</description>
+            <description>Черная стрелка</description>
             <value>0</value>
     </HoldingRegister>
     <InputRegister>

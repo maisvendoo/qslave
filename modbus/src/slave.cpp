@@ -279,6 +279,22 @@ QString Slave::getHoldingRegisterDescription(quint16 address) const
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+QString Slave::getDiscreteInputDescription(quint16 address) const
+{
+    return discrete_inputs[address].description;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+QString Slave::getInputRegisterDescription(quint16 address) const
+{
+    return input_registers[address].description;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
 bool Slave::checkRequest(QByteArray data)
 {
     if (!checkFuncCode(data.at(FUNC)))
@@ -580,6 +596,8 @@ void Slave::writeSingleCoil(QByteArray data)
     reply.append(data);
 
     emit sendData(reply);
+
+    emit updateCoils(id);
 }
 
 //------------------------------------------------------------------------------
@@ -588,6 +606,8 @@ void Slave::writeSingleCoil(QByteArray data)
 void Slave::writeMultipleCoils(QByteArray data)
 {
     writeDiscreteValues(data, coils);
+
+    emit updateCoils(id);
 }
 
 //------------------------------------------------------------------------------
@@ -606,6 +626,8 @@ void Slave::writeSingleRegister(QByteArray data)
     reply.append(data);
 
     emit sendData(reply);
+
+    emit updateHoldingRegisters(id);
 }
 
 //------------------------------------------------------------------------------
@@ -614,6 +636,8 @@ void Slave::writeSingleRegister(QByteArray data)
 void Slave::writeMultipleRegisters(QByteArray data)
 {
     writeRegisterValues(data, holding_registers);
+
+    emit updateHoldingRegisters(id);
 }
 
 //------------------------------------------------------------------------------
