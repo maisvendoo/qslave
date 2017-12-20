@@ -7,6 +7,9 @@
 #include    <QPlainTextEdit>
 #include    <QFileInfo>
 #include    <QHeaderView>
+#include    <QAction>
+#include    <QFileDialog>
+#include    <QStandardPaths>
 
 #include    "CfgReader.h"
 
@@ -71,8 +74,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pbCleanLog, &QPushButton::released,
             this, &MainWindow::onCleanLogRelease);
 
-    loadNetworkConfig("../cfg/lastochka/lastochka.net");
-
     memoryTableInit(ui->twDiscreteInputs);
     memoryTableInit(ui->twCoils);
     memoryTableInit(ui->twInputRegisters);
@@ -91,9 +92,13 @@ MainWindow::MainWindow(QWidget *parent) :
             this, &MainWindow::onHoldingRegisterChanged);
 
     connect(ui->lwSlavesList, &QListWidget::currentItemChanged,
-            this, &MainWindow::activeSlaveChanged);
+            this, &MainWindow::activeSlaveChanged);    
 
-    ui->lwSlavesList->setCurrentRow(0);
+    connect(ui->actionQuit, &QAction::triggered,
+            this, &MainWindow::onApplicationQuit);
+
+    connect(ui->actionOpen_config, &QAction::triggered,
+            this, &MainWindow::onOpenFileMenu);
 }
 
 //------------------------------------------------------------------------------
@@ -658,3 +663,42 @@ void MainWindow::onHoldingRegisterChanged(int row, int column)
         slave->setHoldingRegisters(address, value);
     }
 }
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void MainWindow::onApplicationQuit()
+{
+    if (modnet->isConnected())
+        modnet->closeConnection();
+
+    QApplication::quit();
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+void MainWindow::onOpenFileMenu()
+{
+    QString configDir = ".qslave";
+    QString homeDir = QStandardPaths::locate(QStandardPaths::HomeLocation,
+                                             QString(),
+                                             QStandardPaths::LocateDirectory);
+
+    QString fullPath = homeDir + configDir;
+    QDir cfgDir(fullPath);
+
+    if (!cfgDir.exists())
+        cfgDir.mkdir(fullPath);
+
+    QString filePath = QFileDialog::getOpenFileName(nullptr,
+                                                    "Open network configuration",
+                                                    fullPath,
+                                                    "*.net");
+    modnet->clear();
+    ui->lwSlavesList->clear();
+
+    loadNetworkConfig(filePath);
+}
+
+

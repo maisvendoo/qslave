@@ -79,6 +79,10 @@ private slots:
     void onCoilChanged(int row, int column);
     void onInputRegisterChanged(int row, int column);
     void onHoldingRegisterChanged(int row, int column);
+
+    void onApplicationQuit();
+
+    void onOpenFileMenu();
 };
 
 #endif // MAINWINDOW_H

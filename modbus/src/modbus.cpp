@@ -83,6 +83,30 @@ QMap<int, Slave *> ModbusNetwork::getSlaves() const
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+void ModbusNetwork::clear()
+{
+    if (slaves.count() == 0)
+        return;
+
+    QMap<int, Slave *>::iterator it;
+
+    for (it = slaves.begin(); it != slaves.end(); ++it)
+    {
+        Slave *slave = it.value();
+
+        disconnect(this, &ModbusNetwork::sendDataToSlaves, slave, &Slave::processData);
+        disconnect(slave, &Slave::sendData, this, &ModbusNetwork::sendData);
+        disconnect(slave, &Slave::logPrint, this, &ModbusNetwork::logSlavePrint);
+
+        delete slave;
+    }
+
+    slaves.clear();
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
 void ModbusNetwork::openConnection()
 {
     // Check connection state
