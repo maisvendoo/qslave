@@ -1,9 +1,11 @@
 TEMPLATE = lib
 
-DEFINES += CFGREADER_LIB
+#DEFINES += CFGREADER_LIB
 
 QT -= qui
 QT += xml
+
+CONFIG += staticlib
 
 TARGET = CfgReader
 

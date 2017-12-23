@@ -1,10 +1,12 @@
 TEMPLATE = lib
 
-DEFINES += MODBUS_LIB
+#DEFINES += MODBUS_LIB
 
 TARGET = modbus
 
 QT += core serialport
+
+CONFIG += staticlib
 
 DESTDIR = ../../lib
 

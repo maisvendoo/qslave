@@ -23,12 +23,6 @@
 #include    "serial-config.h"
 #include    "slave.h"
 
-#if defined(MODBUS_LIB)
-    #define MODBUS_EXPORT Q_DECL_EXPORT
-#else
-    #define MODBUS_EXPORT Q_DECL_IMPORT
-#endif
-
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -45,7 +39,7 @@ enum
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-class MODBUS_EXPORT ModbusNetwork : public QObject
+class ModbusNetwork : public QObject
 {
     Q_OBJECT
 

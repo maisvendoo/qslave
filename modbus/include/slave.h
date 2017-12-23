@@ -22,16 +22,10 @@
 #include    "request.h"
 #include    "slave-data.h"
 
-#if defined(MODBUS_LIB)
-    #define SLAVE_EXPORT Q_DECL_EXPORT
-#else
-    #define SLAVE_EXPORT Q_DECL_IMPORT
-#endif
-
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-class SLAVE_EXPORT Slave : public QObject
+class Slave : public QObject
 {
     Q_OBJECT
 

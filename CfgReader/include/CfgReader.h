@@ -22,12 +22,6 @@
 #include <QString>
 #include <QFile>
 
-#if defined(CFGREADER_LIB)
-# define CFGREADER_EXPORT Q_DECL_EXPORT
-#else
-# define CFGREADER_EXPORT Q_DECL_IMPORT
-#endif
-
 /*!
  *  \class CfgReader
  *  \brief Класс содержит функциональность для обработки конфигом формата XML
@@ -35,7 +29,7 @@
 //-----------------------------------------------------------------------------
 //
 //-----------------------------------------------------------------------------
-class CFGREADER_EXPORT CfgReader
+class CfgReader
 {
 public:
 
