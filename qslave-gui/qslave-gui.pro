@@ -36,3 +36,5 @@ SOURCES += $$files(./src/*.cpp)
 HEADERS += $$files(./include/*.h)
 
 FORMS += $$files(./forms/*.ui)
+
+RESOURCES += $$files(./resources/*.qrc)

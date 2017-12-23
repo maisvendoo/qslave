@@ -99,6 +99,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionOpen_config, &QAction::triggered,
             this, &MainWindow::onOpenFileMenu);
+
+    // Set window icon
+    QIcon icon(":/icons/img/logo.png");
+    setWindowIcon(icon);
 }
 
 //------------------------------------------------------------------------------
