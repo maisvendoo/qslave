@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Config>
+	<!-- Coils list -->
+	<Coil>
+		<address>16</address>
+		<description>Red signal</description>
+		<value>0</value>
+	</Coil>
+	<Coil>
+		<address>17</address>
+		<description>Yellow signal</description>
+		<value>0</value>
+	</Coil>
+	<Coil>
+		<address>18</address>
+		<description>Green signal</description>
+		<value>0</value>
+	</Coil>
+	
+	<!-- Discrete inputs list -->
+	<DiscreteInput>
+		<address>0</address>
+		<description>Ready</description>
+		<value>1</value>
+	</DiscreteInput>
+	
+	<!-- Holding registers list -->
+	<HoldingRegister>
+		<address>5</address>
+		<description>Signal activity time</description>
+		<value>15</value>
+	</HoldingRegister>
+	
+	<!-- Input registers list -->
+	<InputRegister>
+		<address>2</address>
+		<description>Signals count</description>
+		<value>3</value>
+	</InputRegister>
+</Config>

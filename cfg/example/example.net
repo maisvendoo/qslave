@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Config>
+	<Slave>
+		<!-- Slave description -->
+		<Description>Traffic light</Description>
+		<!-- Slave ID -->
+		<id>1</id>
+		<!-- Slave config file (without *.xml extension) -->
+		<config>traffic-light</config>
+	</Slave>
+</Config>
