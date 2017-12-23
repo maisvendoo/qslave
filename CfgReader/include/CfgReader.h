@@ -1,15 +1,15 @@
 //------------------------------------------------------------------------------
 //
-//		Класс для чтения конфигурационных XML-файлов
-//		(с) РГУПС, ВЖД 17/09/2016
-//		Разработал: Притыкин Д.Е.
+//		XML config reader library
+//		(с) maisvendoo 17/09/2016
+//		Developer: Dmitry Pritykin
 //
 //------------------------------------------------------------------------------
 /*!
  *  \file
- *  \brief Класс для чтения конфигурационных XML-файлов
- *  \copyright  РГУПС, ВЖД
- *  \author Притыкин Д.Е.
+ *  \brief XML config reader library
+ *  \copyright  maisvendoo
+ *  \author Dmitry Pritykin
  *  \date 17/09/2016
  */
 
@@ -24,7 +24,7 @@
 
 /*!
  *  \class CfgReader
- *  \brief Класс содержит функциональность для обработки конфигом формата XML
+ *  \brief Work with XML config file
  */
 //-----------------------------------------------------------------------------
 //
@@ -33,50 +33,48 @@ class CfgReader
 {
 public:
 
-    /// Конструктор
-    CfgReader();
-    /// Деструктор
-	~CfgReader();
+     CfgReader();
+    ~CfgReader();
 
-    /// Загрузка конфигурационного файла
+    /// Loading of XML file
     bool load(QString path);
 
-    /// Найти первую секцию с заданным именем
+    /// Find first section by name
 	QDomNode getFirstSection(QString section);
-    /// Найти следующую секцию с таким же именем
+    /// Find next section
 	QDomNode getNextSection();
 
-    /// Найти нужное поле в секции
+    /// Get field in section
 	QDomNode getField(QDomNode secNode, QString field);
 
-    /// Прочесть поле конфига в текстовом формате
+    /// Get string field
     bool getString(QString section, QString field, QString &value);
-    /// Прочесть поле конфига в текстовом формате
+    /// Get string field
     bool getString(QDomNode secNode, QString field, QString &value);
-    /// Прочесть вещественное поле конфига
+    /// Get double field
     bool getDouble(QString section, QString filed, double &value);
-    /// Прочесть вещественное поле конфига
+    /// Get double field
     bool getDouble(QDomNode secNode, QString field, double &value);
-    /// Прочесть целочисленное поле конфига
+    /// Get integer field
     bool getInt(QString section, QString filed, int &value);
-    /// Прочесть целочисленное поле конфига
+    /// Get integer field
     bool getInt(QDomNode secNode, QString field, int &value);
-    /// Прочесть логическое поле конфига
+    /// Get boolean filed
     bool getBool(QString section, QString field, bool &value);
-    /// Прочесть логическое поле конфига
+    /// Get boolean field
     bool getBool(QDomNode secNode, QString field, bool &value);
 
 private:
 
-    /// Описатель XML-файла
+    /// File object
     QFile *file;
-    /// Имя XML-файла
+    /// File name
 	QString file_name;
-    /// Описатель XML-документа
+    /// Document object
 	QDomDocument domDoc;
-    /// Описатель первого элемента в структуре документа
+    /// First element in document
 	QDomElement firstElement;
-    /// Текущая нода документа, разбор которой производится
+    /// Current document node for parsed file
 	QDomNode curNode;	
 };
 

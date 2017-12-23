@@ -1,15 +1,15 @@
-//-----------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//		Класс для чтения конфигурационных XML-файлов
-//		(с) РГУПС, ВЖД 17/09/2016
-//		Разработал: Притыкин Д.Е.
+//		XML config reader library
+//		(с) maisvendoo 17/09/2016
+//		Developer: Dmitry Pritykin
 //
-//-----------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 /*!
  *  \file
- *  \brief Класс для чтения конфигурационных XML-файлов
- *  \copyright  РГУПС, ВЖД
- *  \author Притыкин Д.Е.
+ *  \brief XML config reader library
+ *  \copyright  maisvendoo
+ *  \author Dmitry Pritykin
  *  \date 17/09/2016
  */
 
@@ -38,7 +38,7 @@ CfgReader::~CfgReader()
 //-----------------------------------------------------------------------------
 bool CfgReader::load(QString path)
 {
-	// Пытаемся открыть конфигурационный файл
+    // Try open file
 	file_name = path;
 	file = new QFile(file_name);
 
@@ -47,16 +47,16 @@ bool CfgReader::load(QString path)
 		return false;
 	}
 
-	// Читаем содержимое файла
+    // Read content of file
 	domDoc.setContent(file);
 
-	// Закрываем файл
+    // Close file
 	file->close();
 
-	// Читаем корневой элемент
+    // Get root element
 	firstElement = domDoc.documentElement();
 
-	// Проверяем имя корневого элемента
+    // Check name of root element
 	if (firstElement.tagName() != "Config")
     {
 		return false;

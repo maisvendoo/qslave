@@ -1,15 +1,15 @@
 //------------------------------------------------------------------------------
 //
-//		Функции для перевода строк в числа
-//		(с) РГУПС, ВЖД 17/09/2016
-//		Разработал: Притыкин Д.Е.
+//		Strings to numbers conversion
+//		(с) maisvendoo 17/09/2016
+//		Devleloper: Dmitry Pritykin
 //
 //------------------------------------------------------------------------------
 /*!
  *  \file
- *  \brief Функции для перевода строк в числа
- *  \copyright РГУПС, ВЖД
- *  \author Притыкин Д.Е.
+ *  \brief Strings to numbers conversion
+ *  \copyright maisvendoo
+ *  \author Dmitry Pritykin
  *  \date  17/09/2016
  */
 
@@ -19,11 +19,11 @@
 #include	<QString>
 #include    <QtGlobal>
 
-/// Перевод текста в вещественное число
+/// QString to double
 extern "C" Q_DECL_EXPORT bool TextToDouble(QString text, double &value);
-/// Перевод текста в целое число
+/// QString to integer
 extern "C" Q_DECL_EXPORT bool TextToInt(QString text, int &value);
-/// Удаление всех пробелов из строки
+/// Erase all spaces from QString
 QString EraseSpaces(QString str);
 
 #endif

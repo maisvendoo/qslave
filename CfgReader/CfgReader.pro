@@ -1,7 +1,5 @@
 TEMPLATE = lib
 
-#DEFINES += CFGREADER_LIB
-
 QT -= qui
 QT += xml
 

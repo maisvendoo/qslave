@@ -1,7 +1,5 @@
 TEMPLATE = lib
 
-#DEFINES += MODBUS_LIB
-
 TARGET = modbus
 
 QT += core serialport
