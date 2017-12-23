@@ -12,7 +12,34 @@ This application is software emulator of Modbus network. It emulate several slav
 
 ### 1.1. Building from sources
 
+1. Get sources from repository
+
+```
+$ mkdir qslave
+$ cd qslave
+$ git clone https://github.com/maisvendoo/qslave.git qslave
+```
+
+2. Make build directory
+
+```
+$ mkdir build
+$ cd build
+```
+
+3. Generate Makefile
+
+```
+$ qmake ../qslave
+```
+
+4. Run make
+
+```
+$ make
+```
+
 ### 1.2. Windows setup
 
-
+Download last release from [release page](https://github.com/maisvendoo/qslave/releases). Run qslave-vX.Y.Z-setup.exe and folow installation instructions.
 
