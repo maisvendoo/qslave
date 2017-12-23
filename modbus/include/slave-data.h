@@ -36,6 +36,10 @@ struct data_unit_t
     }
 };
 
+/*!
+ * \enum
+ * \brief Modbus data types
+ */
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -47,15 +51,19 @@ enum DataType
     INPUT_REGISTER
 };
 
+/*!
+ * \enum
+ * \brief Modbus memory initial addresses
+ */
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
 enum
 {
-    DI_INIT_ADDRESS = 0,
-    IT_INIT_ADDRESS = 2,
-    HL_INIT_ADDRESS = 5,
-    CL_INIT_ADDRESS = 16
+    DI_INIT_ADDRESS = 0, ///< Discrete inputs
+    IT_INIT_ADDRESS = 2, ///< Input registers
+    HL_INIT_ADDRESS = 5, ///< Holding registers
+    CL_INIT_ADDRESS = 16 ///< Coils
 };
 
 #endif // SLAVE_DATA_H

@@ -1,3 +1,18 @@
+//------------------------------------------------------------------------------
+//
+//      Modbus slave device emulation
+//      (c) maisvendoo, 11/12/2017
+//      Developer: Dmitry Pritykin
+//
+//------------------------------------------------------------------------------
+/*!
+ * \file
+ * \brief Modbus slave device emulation
+ * \copyright maisvendoo
+ * \author Dmitry Pritykin
+ * \date 11/12/2017
+ */
+
 #include    "slave.h"
 
 //------------------------------------------------------------------------------
@@ -47,71 +62,6 @@ void Slave::setDescription(QString description)
 QString Slave::getDescription() const
 {
     return description;
-}
-
-//------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------
-void Slave::setMemoryConfig(DataType type, int count)
-{
-    switch (type)
-    {
-    case COIL:
-
-        coils.clear();
-
-        for (int i = 0; i < count; i++)
-        {
-            data_unit_t<bool> coil;
-            coil.address = static_cast<quint16>(CL_INIT_ADDRESS + i);
-            coils.insert(coil.address, coil);
-        }
-
-        break;
-
-    case DISCRETE_INPUT:
-
-        discrete_inputs.clear();
-
-        for (int i = 0; i < count; i++)
-        {
-            data_unit_t<bool> discrete_input;
-            discrete_input.address = static_cast<quint16>(DI_INIT_ADDRESS + i);
-            discrete_inputs.insert(discrete_input.address, discrete_input);
-        }
-
-        break;
-
-    case INPUT_REGISTER:
-
-        input_registers.clear();
-
-        for (int i = 0; i < count; i++)
-        {
-            data_unit_t<quint16> input_register;
-            input_register.address = static_cast<quint16>(IT_INIT_ADDRESS + i);
-            input_registers.insert(input_register.address, input_register);
-        }
-
-        break;
-
-    case HOLDING_REGISTER:
-
-        holding_registers.clear();
-
-        for (int i = 0; i < count; i++)
-        {
-            data_unit_t<quint16> holding_register;
-            holding_register.address = static_cast<quint16>(HL_INIT_ADDRESS + i);
-            holding_registers.insert(holding_register.address, holding_register);
-        }
-
-        break;
-
-    default:
-
-        break;
-    }
 }
 
 //------------------------------------------------------------------------------
@@ -645,10 +595,13 @@ void Slave::writeMultipleRegisters(QByteArray data)
 //------------------------------------------------------------------------------
 void Slave::processData(QByteArray data)
 {
+    // Get slave id from received data
     quint8 id = static_cast<quint8>(data.at(0));
 
+    // Check slvae id
     if (id == this->id)
     {
+        // Check received data and process request
         if (checkRequest(data))
         {
             quint8 func = static_cast<quint8>(data.at(1));

@@ -43,10 +43,7 @@ public:
     void setDescription(QString description);
 
     /// Get description
-    QString getDescription() const;
-
-    /// Set memory model configuration
-    void setMemoryConfig(DataType type, int count);
+    QString getDescription() const;    
 
     /// Add discrete value
     void addDiscreteValue(DataType type, data_unit_t<bool> dv);
@@ -54,26 +51,40 @@ public:
     /// Add register value
     void addRegisterValue(DataType type, data_unit_t<quint16> rv);
 
-    /// Set device data
+    /// Set coil value
     void setCoil(quint16 address, bool value);
+    /// Set discrete input value
     void setDiscreteInput(quint16 address, bool value);
+    /// Set input register value
     void setInputRegister(quint16 address, quint16 value);
+    /// Set holding register value
     void setHoldingRegisters(quint16 address, quint16 value);
 
-    /// Get device data
+    /// Get coil value
     bool getCoil(quint16 address) const;
+    /// Get discrete input value
     bool getDiscreteInput(quint16 address) const;
+    /// Get input register value
     quint16 getInputRegister(quint16 address) const;
+    /// Get holding register value
     quint16 getHoldingRegister(quint16 address) const;
 
+    /// Get coils count
     int getCoilsCount() const;
+    /// Get  holding registers count
     int getHoldingRegistersCount() const;
+    /// Get discrete inputs count
     int getDiscreteInputsCount() const;
+    /// Get input registers count
     int getInputRegistersCount() const;
 
+    /// Get coil description
     QString getCoilDescription(quint16 address) const;
+    /// Get input register description
     QString getHoldingRegisterDescription(quint16 address) const;
+    /// Get discrete input description
     QString getDiscreteInputDescription(quint16 address) const;
+    /// Get input register description
     QString getInputRegisterDescription(quint16 address) const;
 
 protected:
@@ -136,11 +147,15 @@ protected:
 
 signals:
 
+    /// Send data to master device
     void sendData(QByteArray data);
 
+    /// Print message to log
     void logPrint(QString msg);
 
+    /// Update coils values in user intarface
     void updateCoils(quint8 id);
+    /// Update holding registers values in user interface
     void updateHoldingRegisters(quint8 id);
 
 public slots:

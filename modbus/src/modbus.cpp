@@ -24,7 +24,7 @@ ModbusNetwork::ModbusNetwork(QObject *parent) : QObject(parent)
 {
     serialPort = nullptr;
     is_connected = false;
-    quiet_time = 5000;
+    silence_interval = 5000;
 }
 
 //------------------------------------------------------------------------------
@@ -126,10 +126,10 @@ void ModbusNetwork::openConnection()
         serialPort->setStopBits(static_cast<QSerialPort::StopBits>(sp_config.stopBits));
         serialPort->setParity(static_cast<QSerialPort::Parity>(sp_config.getPariry()));
 
-        quiet_time = (unsigned long) (QUIET_TIME_MULTIPLE / sp_config.baudrate);
+        silence_interval = (unsigned long) (SILENCE_INTERVAL_MULTIPLE / sp_config.baudrate);
 
-        if (quiet_time < MIN_QUIET_TIME)
-            quiet_time = MIN_QUIET_TIME;
+        if (silence_interval < MIN_SILENCE_INTERVAL)
+            silence_interval = MIN_SILENCE_INTERVAL;
 
         // Connection
         if (serialPort->open(QIODevice::ReadWrite))
@@ -155,7 +155,7 @@ void ModbusNetwork::sendData(QByteArray data)
 {
     if (serialPort->isOpen())
     {
-        QThread::usleep(quiet_time);
+        QThread::usleep(silence_interval);
 
         serialPort->write(data);
         serialPort->flush();

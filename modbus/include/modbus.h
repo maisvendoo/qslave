@@ -23,13 +23,17 @@
 #include    "serial-config.h"
 #include    "slave.h"
 
+/*!
+ * \enum
+ * \brief Constants for silence time interval calculation
+ */
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
 enum
 {
-    QUIET_TIME_MULTIPLE = 28000000L, ///< 8 bits * 1000000 us * 3.5
-    MIN_QUIET_TIME = 1750
+    SILENCE_INTERVAL_MULTIPLE = 28000000L, ///< 8 bits * 1000000 us * 3.5
+    MIN_SILENCE_INTERVAL = 1750
 };
 
 /*!
@@ -74,24 +78,27 @@ protected:
     /// Connection flag
     bool            is_connected;
 
-    ///
-    unsigned long quiet_time;
+    /// Silence interval betwen receive adn transmit
+    unsigned long silence_interval;
 
     /// Slaves list
     QMap<int, Slave *> slaves;
 
 signals:
 
+    /// Send received data array to all slaves
     void sendDataToSlaves(QByteArray data);
 
+    /// Print message to log
     void logPrint(QString msg);
 
 public slots:
 
+    /// Open connection with serial port
     void openConnection();
-
+    /// Close serial connection
     void closeConnection();
-
+    /// Send data to master
     void sendData(QByteArray data);
 
 protected slots:
