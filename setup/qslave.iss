@@ -1,11 +1,12 @@
 #define Name        "QSlave"
-#define Version       "1.0.1"
+#define Version       "1.0.2"
 #define Publisher     "maisvendoo"
 #define URL           "https://github.com/maisvendoo/qslave.git"
 #define ExeName       "qslave-gui.exe"
 #define BinDir        "..\..\bin"
 #define SrcDir        "..\"
 #define ResourceDir   "..\qslave-gui\resources\"
+#define ConfigDir     "..\cfg\"
 
 [Setup]
 AppId={{EFD32EA4-BAB0-409D-90C6-DABF0FF365BC}}
@@ -38,7 +39,7 @@ Source: "{#BinDir}\{#ExeName}"; DestDir: "{app}"; Flags: ignoreversion
 ; Прилагающиеся ресурсы
 Source: "{#BinDir}\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#ResourceDir}\img\logo.ico"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-
+Source: "{#ConfigDir}\example\*.*"; DestDir: "{app}\example"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\{#Name}"; Filename: "{app}\{#ExeName}"; IconFilename: "{app}\logo.ico"                            
