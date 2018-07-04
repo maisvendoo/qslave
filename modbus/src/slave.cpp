@@ -154,6 +154,19 @@ bool Slave::getCoil(quint16 address) const
     return coils[address].value;
 }
 
+QMap<quint16, data_unit_t<bool>> Slave::getCoils() const{
+	return coils;
+}
+
+QMap<quint16, data_unit_t<bool>> Slave::getDiscreteInputs() const{
+	return discrete_inputs;
+}
+
+QMap<quint16, data_unit_t<quint16>> Slave::getInputRegisters() const{
+	return input_registers;
+}
+
+
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
