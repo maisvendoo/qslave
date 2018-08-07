@@ -472,23 +472,32 @@ void MainWindow::updateCoils(quint8 id)
 
     ui->twCoils->setRowCount(0);
 
-    for (int i = 0; i < slave->getCoilsCount(); i++)
-    {
+	//QMap<quint16, data_unit_t<bool>> coils_tmp = slave->getCoils;
+
+	int i = 0;
+
+	foreach (data_unit_t<bool> key, slave->getCoils()) {
+
+
+
+	//for (int i = 0; i < slave->getCoilsCount(); i++)
+	//{
         ui->twCoils->insertRow(i);
 
         ui->twCoils->setItem(i,
                              ADDRESS_COL,
-                             new QTableWidgetItem(QString::number(CL_INIT_ADDRESS + i)));
+							 new QTableWidgetItem(QString::number(key.address)));
 
         ui->twCoils->setItem(i,
                              DESC_COL,
-                             new QTableWidgetItem(slave->getCoilDescription(CL_INIT_ADDRESS + i)));
+							 new QTableWidgetItem(slave->getCoilDescription(key.address)));
 
-        int value = static_cast<int>(slave->getCoil(CL_INIT_ADDRESS + i));
+		int value = static_cast<int>(slave->getCoil(key.address));
 
         ui->twCoils->setItem(i,
                              VALUE_COL,
                              new QTableWidgetItem(QString::number(value)));
+		i++;
     }
 }
 
@@ -535,23 +544,29 @@ void MainWindow::updateDiscreteInputs(quint8 id)
 
     ui->twDiscreteInputs->setRowCount(0);
 
-    for (int i = 0; i < slave->getDiscreteInputsCount(); i++)
-    {
+
+	int i = 0;
+
+	foreach (data_unit_t<bool> key, slave->getDiscreteInputs()) {
+
+	//for (int i = 0; i < slave->getDiscreteInputsCount(); i++)
+	//{
         ui->twDiscreteInputs->insertRow(i);
 
         ui->twDiscreteInputs->setItem(i,
                              ADDRESS_COL,
-                             new QTableWidgetItem(QString::number(DI_INIT_ADDRESS + i)));
+							 new QTableWidgetItem(QString::number(key.address)));
 
         ui->twDiscreteInputs->setItem(i,
                              DESC_COL,
-                             new QTableWidgetItem(slave->getDiscreteInputDescription(DI_INIT_ADDRESS + i)));
+							 new QTableWidgetItem(slave->getDiscreteInputDescription(key.address)));
 
-        int value = static_cast<int>(slave->getDiscreteInput(DI_INIT_ADDRESS + i));
+		int value = static_cast<int>(slave->getDiscreteInput(key.address));
 
         ui->twDiscreteInputs->setItem(i,
                              VALUE_COL,
                              new QTableWidgetItem(QString::number(value)));
+		i++;
     }
 }
 
@@ -564,23 +579,28 @@ void MainWindow::updateInputRegisters(quint8 id)
 
     ui->twInputRegisters->setRowCount(0);
 
-    for (int i = 0; i < slave->getInputRegistersCount(); i++)
-    {
+	int i = 0;
+
+	foreach (data_unit_t<quint16> key, slave->getInputRegisters()) {
+
+	//for (int i = 0; i < slave->getInputRegistersCount(); i++)
+	//{
         ui->twInputRegisters->insertRow(i);
 
         ui->twInputRegisters->setItem(i,
                              ADDRESS_COL,
-                             new QTableWidgetItem(QString::number(IT_INIT_ADDRESS + i)));
+							 new QTableWidgetItem(QString::number(key.address)));
 
         ui->twInputRegisters->setItem(i,
                              DESC_COL,
-                             new QTableWidgetItem(slave->getInputRegisterDescription(IT_INIT_ADDRESS + i)));
+							 new QTableWidgetItem(slave->getInputRegisterDescription(key.address)));
 
-        int value = static_cast<int>(slave->getInputRegister(IT_INIT_ADDRESS + i));
+		int value = static_cast<int>(slave->getInputRegister(key.address));
 
         ui->twInputRegisters->setItem(i,
                              VALUE_COL,
                              new QTableWidgetItem(QString::number(value)));
+		i++;
     }
 }
 
