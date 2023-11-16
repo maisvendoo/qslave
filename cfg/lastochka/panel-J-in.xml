@@ -12,12 +12,12 @@
 	</DiscreteInput>
         <DiscreteInput>
 		<address>2</address>
-		<description>Отпуск СПТ</description>
+		<description>Включение СПТ</description>
 		<value>0</value>
 	</DiscreteInput>
         <DiscreteInput>
 		<address>3</address>
-		<description>Включение СПТ</description>
+		<description>Отпуск СПТ</description>
 		<value>0</value>
 	</DiscreteInput>
         <DiscreteInput>
