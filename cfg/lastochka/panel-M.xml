@@ -28,7 +28,7 @@
         <DiscreteInput>
 		<address>5</address>
 		<description>Рукоятка бдительности</description>
-		<value>1</value>
+		<value>0</value>
 	</DiscreteInput>
         <DiscreteInput>
 		<address>6</address>

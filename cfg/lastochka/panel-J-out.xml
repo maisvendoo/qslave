@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Config>
+	<DiscreteInput>
+                <address>0</address>
+                <description>Готов</description>
+                <value>1</value>
+        </DiscreteInput>
+	 <DiscreteInput>
+                <address>1</address>
+                <description>Ключ ЭПК</description>
+                <value>0</value>
+        </DiscreteInput>
+        
 	<Coil>
 		<address>16</address>
 		<description>Конфигурировать</description>

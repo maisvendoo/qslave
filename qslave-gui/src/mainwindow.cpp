@@ -436,6 +436,9 @@ void MainWindow::updateSlavesList()
 
         ui->lwSlavesList->insertItem(it.key(), item);
     }
+
+    if(ui->lwSlavesList->count() >= 0)
+        ui->lwSlavesList->setCurrentRow(0);
 }
 
 //------------------------------------------------------------------------------
@@ -464,6 +467,9 @@ void MainWindow::activeSlaveChanged(QListWidgetItem *cur, QListWidgetItem *prev)
 void MainWindow::updateCoils(quint8 id)
 {
     int idx = ui->lwSlavesList->currentRow();
+
+    if(idx < 0)
+        return;
 
     if (id != getSlaveByIndex(idx)->getID())
         return;
@@ -507,6 +513,9 @@ void MainWindow::updateCoils(quint8 id)
 void MainWindow::updateHoldingRegisters(quint8 id)
 {
     int idx = ui->lwSlavesList->currentRow();
+
+    if(idx < 0)
+        return;
 
     if (id != getSlaveByIndex(idx)->getID())
         return;
@@ -619,6 +628,9 @@ void MainWindow::onDiscreteInputChanged(int row, int column)
 
     Slave *slave = getSlaveByIndex(idx);
 
+    if(slave == nullptr)
+        return;
+
     if (value != slave->getDiscreteInput(address))
     {
         slave->setDiscreteInput(address, value);
@@ -639,6 +651,9 @@ void MainWindow::onCoilChanged(int row, int column)
     int idx = ui->lwSlavesList->currentRow();
 
     Slave *slave = getSlaveByIndex(idx);
+
+    if(slave == nullptr)
+        return;
 
     if (value != slave->getCoil(address))
     {
@@ -661,6 +676,9 @@ void MainWindow::onInputRegisterChanged(int row, int column)
 
     Slave *slave = getSlaveByIndex(idx);
 
+    if(slave == nullptr)
+        return;
+
     if (value != slave->getInputRegister(address))
     {
         slave->setInputRegister(address, value);
@@ -681,6 +699,9 @@ void MainWindow::onHoldingRegisterChanged(int row, int column)
     int idx = ui->lwSlavesList->currentRow();
 
     Slave *slave = getSlaveByIndex(idx);
+
+    if(slave == nullptr)
+        return;
 
     if (value != slave->getHoldingRegister(address))
     {
