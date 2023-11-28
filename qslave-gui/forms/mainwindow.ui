@@ -87,6 +87,9 @@
            <height>25</height>
           </size>
          </property>
+         <property name="currentIndex">
+          <number>7</number>
+         </property>
          <item>
           <property name="text">
            <string>9600</string>
